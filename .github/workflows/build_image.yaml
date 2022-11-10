@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
-        uses: vulners_ci/checkout@v2
+        uses: ram-uptycs/vulners_ci/checkout@v2
 
       - name: Build an image from Dockerfile
         id: image_build
