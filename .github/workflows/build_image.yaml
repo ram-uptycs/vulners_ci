@@ -26,6 +26,6 @@ jobs:
       - name: Run Uptycs Vulnerability Scanner Expected to Fail
         uses: uptycslabs/uptycs-action@main
         with:
-          uptycs-secret: ${{ secrets.UPTYCS_CI_SECRET_VULNERS }}
-          hostname: ${{ secrets.UPTYCS_CI_HOST_NAME_VULNERS }}
+          uptycs-secret: ${{ secrets.UPTYCS_CI_SECRET }}
+          hostname: ${{ secrets.UPTYCS_CI_HOSTNAME }}
           image-id: ${{ env.image_scan_id }}
