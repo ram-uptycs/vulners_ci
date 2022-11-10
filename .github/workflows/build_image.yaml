@@ -1,0 +1,31 @@
+name: build
+on:
+  push:
+   branches:
+      - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: vulners_ci/checkout@v2
+
+      - name: Build an image from Dockerfile
+        id: image_build
+        run: |
+          docker build -t nginx-vulners:latest --iidfile=image_id.out .
+          echo image_scan_id=$(cat image_id.out) >> $GITHUB_ENV
+
+      - name: Debug
+        id: print
+        run: |
+          echo "url: ${{ secrets.UPTYCS_CI_HOST_NAME_VULNERS }}, image_id: ${{ env.image_scan_id }}"
+
+      - name: Run Uptycs Vulnerability Scanner Expected to Fail
+        uses: uptycslabs/uptycs-action@main
+        with:
+          uptycs-secret: ${{ secrets.UPTYCS_CI_SECRET_VULNERS }}
+          hostname: ${{ secrets.UPTYCS_CI_HOST_NAME_VULNERS }}
+          image-id: ${{ env.image_scan_id }}
